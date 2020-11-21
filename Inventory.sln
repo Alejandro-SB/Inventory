@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Domain", "src\Inv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Infrastructure", "src\Inventory.Infrastructure\Inventory.Infrastructure.csproj", "{7A690673-F6D0-415A-A741-CE32AEB695CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Application", "src\Inventory.Application\Inventory.Application.csproj", "{8185FE64-F087-4EFD-B459-9E93597A51A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Application", "src\Inventory.Application\Inventory.Application.csproj", "{8185FE64-F087-4EFD-B459-9E93597A51A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.API", "src\Inventory.API\Inventory.API.csproj", "{001C9DE5-1C4A-496D-995A-C30D227F7B79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.API", "src\Inventory.API\Inventory.API.csproj", "{001C9DE5-1C4A-496D-995A-C30D227F7B79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Test", "test\Inventory.Test\Inventory.Test.csproj", "{65790E5C-872E-4028-B012-E5C47AC0366E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Test", "test\Inventory.Test\Inventory.Test.csproj", "{65790E5C-872E-4028-B012-E5C47AC0366E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 namespace Inventory.API.Products
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
@@ -41,6 +42,7 @@ namespace Inventory.API.Products
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> CreateProductAsync([FromBody] CreateProductDto productDto)
         {
@@ -58,6 +60,7 @@ namespace Inventory.API.Products
         [HttpDelete("{name}")]
         [ProducesResponseType(typeof(CreateProductDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CreateProductDto>> WithdrawByNameAsync(string? name)
         {
@@ -74,6 +77,7 @@ namespace Inventory.API.Products
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(CreateProductDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CreateProductDto>> GetProductByIdAsync(int id)
         {

@@ -19,6 +19,8 @@ namespace Inventory.Infrastructure.Configuration
         /// <param name="builder"></param>
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
+            ConfigureEntity(builder);
+
             builder.Property(x => x.CreationBy)
                 .HasMaxLength(50)
                 .IsRequired(false);
@@ -32,8 +34,6 @@ namespace Inventory.Infrastructure.Configuration
 
             builder.Property(x => x.ModificationDate)
                 .IsRequired(false);
-
-            ConfigureEntity(builder);
         }
 
         /// <summary>

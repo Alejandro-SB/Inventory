@@ -1,4 +1,4 @@
-﻿using Inventory.API.ActionResults;
+﻿using Inventory.API.Infrastructure.ActionResults;
 using Inventory.Application.Products.CreateProduct;
 using Inventory.Domain.Exceptions;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Inventory.API.Filters
+namespace Inventory.API.Infrastructure.Filters
 {
     public class GlobalExceptionFilter : IExceptionFilter
     {

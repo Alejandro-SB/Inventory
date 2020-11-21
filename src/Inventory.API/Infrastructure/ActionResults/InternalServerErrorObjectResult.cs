@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Inventory.API.ActionResults
+namespace Inventory.API.Infrastructure.ActionResults
 {
     /// <summary>
     /// Class that represents the result of a 500 status code error

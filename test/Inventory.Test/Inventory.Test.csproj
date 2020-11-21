@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\src\Inventory.Domain\Inventory.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Integration\" />
+  </ItemGroup>
+
 </Project>
