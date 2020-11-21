@@ -1,15 +1,8 @@
 ﻿using Inventory.API;
 using Inventory.Domain.Entities;
 using Inventory.Infrastructure;
-using Inventory.IntegrationTest.Helpers;
-using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -18,47 +11,14 @@ using Xunit;
 
 namespace Inventory.IntegrationTest.Integration.Products
 {
-    public class CreateProductTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class CreateProductTests : BypassAuthenticationTestBase
     {
-        private readonly HttpClient _client;
+        public CreateProductTests(WebApplicationFactory<Startup> factory) : base(factory) { }
 
-        public CreateProductTests(WebApplicationFactory<Startup> factory)
+        protected override void SeedDatabase(InventoryDbContext context)
         {
-            _client = factory.WithWebHostBuilder(builder => {
-                builder.ConfigureServices(services =>
-                {
-                    var provider = new ServiceCollection()
-                            .AddEntityFrameworkInMemoryDatabase()
-                            .BuildServiceProvider();
-
-                    services.RemoveAll(typeof(InventoryDbContext));
-                    services.AddDbContext<InventoryDbContext>(options =>
-                    {
-                        options.UseInMemoryDatabase("InMemoryDb");
-                        options.UseInternalServiceProvider(provider);
-                    });
-
-                    var sp = services.BuildServiceProvider();
-
-                    using var scope = sp.CreateScope();
-
-                    var scopedServices = scope.ServiceProvider;
-                    var dbContext = scopedServices.GetRequiredService<InventoryDbContext>();
-
-                    try
-                    {
-                        dbContext.Products.Add(new Product("existing"));
-                        dbContext.SaveChanges();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                }).ConfigureTestServices(services =>
-                {
-                    services.AddSingleton<IPolicyEvaluator, StubPolicyEvaluator>();
-                });
-            }).CreateClient();
+            context.Products.Add(new Product("existing"));
+            context.SaveChanges();
         }
 
         [Fact]
@@ -71,8 +31,8 @@ namespace Inventory.IntegrationTest.Integration.Products
             var emptyUsernameContent = new StringContent(emptyUsernameJson, Encoding.UTF8, "application/json");
 
             //Act
-            var emptyResponse = await _client.PostAsync("Product", emptyContent);
-            var emptyUsernameResponse = await _client.PostAsync("Product", emptyUsernameContent);
+            var emptyResponse = await Client.PostAsync("Product", emptyContent);
+            var emptyUsernameResponse = await Client.PostAsync("Product", emptyUsernameContent);
 
             //Assert
             Assert.Equal(HttpStatusCode.BadRequest, emptyResponse.StatusCode);
@@ -87,7 +47,7 @@ namespace Inventory.IntegrationTest.Integration.Products
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             //Act
-            var response = await _client.PostAsync("Product", content);
+            var response = await Client.PostAsync("Product", content);
 
             //Assert
             Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
@@ -102,7 +62,7 @@ namespace Inventory.IntegrationTest.Integration.Products
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             //Act
-            var response = await _client.PostAsync("Product", content);
+            var response = await Client.PostAsync("Product", content);
 
             //Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);

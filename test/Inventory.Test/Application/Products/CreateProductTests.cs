@@ -14,7 +14,7 @@ namespace Inventory.Test.Application.Products
     public class CreateProductTests
     {
         [Fact]
-        public void Null_Or_Empty_Name_Is_Not_Valid_In_Request()
+        public void When_Null_Or_Empty_Name_Is_Not_Valid_In_Request_Throws()
         {
             Assert.Throws<ArgumentNullException>(() => new CreateProductRequest(null!));
             Assert.Throws<ArgumentNullException>(() => new CreateProductRequest(string.Empty));
@@ -44,7 +44,7 @@ namespace Inventory.Test.Application.Products
         }
 
         [Fact]
-        public async Task When_Name_Does_Not_Exists_Returns_Id()
+        public async Task When_Name_Does_Not_Exists_Inserts_And_Returns_Id()
         {
             //Arrange
             const string productName = "name";
