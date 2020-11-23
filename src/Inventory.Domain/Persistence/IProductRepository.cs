@@ -10,6 +10,7 @@ namespace Inventory.Domain.Repositories
     {
         ValueTask<Product?> GetByIdAsync(int id);
         Task<Product?> GetByNameAsync(string name);
+        Task<List<Product>> GetExpiredProductsAsync();
         Product AddProduct(Product product);
         Product DeleteProduct(Product product);
     }

@@ -1,7 +1,9 @@
-﻿using Inventory.Domain.Entities;
+﻿using Inventory.Domain.DateTimeProvider;
+using Inventory.Domain.Entities;
 using Inventory.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +12,12 @@ namespace Inventory.Infrastructure
     public class ProductRepository : IProductRepository
     {
         private readonly InventoryDbContext _context;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public ProductRepository(InventoryDbContext context)
+        public ProductRepository(InventoryDbContext context, IDateTimeProvider dateTimeProvider)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
         }
 
         public ValueTask<Product?> GetByIdAsync(int id)
@@ -24,6 +28,13 @@ namespace Inventory.Infrastructure
         public Task<Product?> GetByNameAsync(string name)
         {
             return _context.Set<Product?>().FirstOrDefaultAsync(x => x!.Name == name);
+        }
+
+        public Task<List<Product>> GetExpiredProductsAsync()
+        {
+            var today = _dateTimeProvider.UtcNow;
+
+            return _context.Set<Product>().Where(x => x.ExpirationDate < today).ToListAsync();
         }
 
         public Product AddProduct(Product product)
