@@ -3,6 +3,7 @@ using Inventory.API.Infrastructure.Filters;
 using Inventory.Application;
 using Inventory.Application.Products.CreateProduct;
 using Inventory.Domain.DateTimeProvider;
+using Inventory.Domain.Events;
 using Inventory.Domain.Persistence;
 using Inventory.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -112,6 +113,7 @@ namespace Inventory.API
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            services.AddSingleton<IEventBus, NullEventBus>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

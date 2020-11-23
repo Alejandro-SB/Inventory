@@ -36,7 +36,7 @@ namespace Inventory.Test.Application.Products
         }
 
         [Fact]
-        public async Task When_The_Product_Exists_Marks_It_As_Withdrawn()
+        public async Task When_The_Product_Exists_Marks_It_As_Withdrawn_And_Raises_Event()
         {
             //Arrange
             const string productName = "name";
@@ -59,6 +59,7 @@ namespace Inventory.Test.Application.Products
             Assert.NotNull(response);
             Assert.True(response.Success);
             Assert.Equal(product, response.Product);
+            Assert.Equal(1, product.DomainEvents.Count);
         }
     }
 }

@@ -24,12 +24,15 @@ namespace Inventory.Application.Products.RemoveByName
 
         public async Task<RemoveProductByNameResponse> Handle(RemoveProductByNameRequest request, CancellationToken cancellationToken = default)
         {
-            var product = await _productRepository.GetByNameAsync(request.Name);
+            string productName = request.Name;
+            var product = await _productRepository.GetByNameAsync(productName);
 
             if(product is null)
             {
-                throw new ProductNotFoundException(request.Name);
+                throw new ProductNotFoundException(productName);
             }
+
+            product.AddEvent(new ProductRemovedEvent(productName));
 
             _productRepository.DeleteProduct(product);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

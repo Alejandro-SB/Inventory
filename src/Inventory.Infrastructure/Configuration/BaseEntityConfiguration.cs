@@ -20,6 +20,8 @@ namespace Inventory.Infrastructure.Configuration
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
             ConfigureEntity(builder);
+            
+            builder.Ignore(x => x.DomainEvents);
 
             builder.Property(x => x.CreationBy)
                 .HasMaxLength(50)
