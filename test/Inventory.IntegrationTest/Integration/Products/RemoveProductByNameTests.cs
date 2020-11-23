@@ -8,9 +8,9 @@ using Xunit;
 
 namespace Inventory.IntegrationTest.Integration.Products
 {
-    public class WithdrawProductByNameTests : BypassAuthenticationTestBase
+    public class RemoveProductByNameTests : BypassAuthenticationTestBase
     {
-        public WithdrawProductByNameTests(WebApplicationFactory<Startup> factory) : base(factory) { }
+        public RemoveProductByNameTests(WebApplicationFactory<Startup> factory) : base(factory) { }
 
         protected override void SeedDatabase(InventoryDbContext context)
         {

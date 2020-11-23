@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Inventory.Test.Application.Products
 {
-    public class WithdrawProductTests
+    public class RemoveProductTests
     {
         [Fact]
         public void When_The_Name_Is_Null_Or_Empty_Throws()
@@ -36,11 +36,10 @@ namespace Inventory.Test.Application.Products
         }
 
         [Fact]
-        public async Task When_The_Product_Exists_Marks_It_As_Withdrawn_And_Raises_Event()
+        public async Task When_The_Product_Exists_Removes_It_And_Raises_Event()
         {
             //Arrange
             const string productName = "name";
-            DateTime withdrawalDate = new DateTime(2020, 1, 1);
 
             var product = new Product(productName);
 
