@@ -1,4 +1,6 @@
 using FluentValidation.AspNetCore;
+using Hangfire;
+using Inventory.API.Infrastructure.BackgroundJobs;
 using Inventory.API.Infrastructure.Filters;
 using Inventory.Application;
 using Inventory.Application.Products.CreateProduct;
@@ -57,6 +59,11 @@ namespace Inventory.API
             services.AddDbContext<InventoryDbContext>(options =>
             {
                 options.UseInMemoryDatabase("Inventory");
+            });
+
+            services.AddHangfire(config =>
+            {
+                config.UseIgnoredAssemblyVersionTypeResolver().UseInMemoryStorage();
             });
 
             services.AddControllers(options =>
@@ -129,6 +136,9 @@ namespace Inventory.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Inventory API");
             });
+
+            app.UseHangfireServer();
+            RecurringJob.AddOrUpdate<NotifyExpiredProductsJob>(nameof(NotifyExpiredProductsJob), x => x.Run(), Cron.Daily(1));
 
             app.UseHttpsRedirection();
 

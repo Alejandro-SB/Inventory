@@ -22,7 +22,7 @@ namespace Inventory.Infrastructure
             Guid eventId = domainEvent.Id;
             DateTime creationDate = domainEvent.CreationDate;
 
-            _logger.LogDebug($"Raised event {eventName} with Id = {eventId} created at {creationDate.ToString("dd/MM/yyyy")}");
+            _logger.LogDebug($"Raised event {eventName} with Id = \"{eventId}\" created at {creationDate:dd/MM/yyyy}");
 
             return Task.CompletedTask;
         }
