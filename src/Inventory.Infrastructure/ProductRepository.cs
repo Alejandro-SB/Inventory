@@ -21,7 +21,7 @@ namespace Inventory.Infrastructure
             return _context.FindAsync<Product?>(id);
         }
 
-        public Task<Product?> GetActiveByNameAsync(string name)
+        public Task<Product?> GetByNameAsync(string name)
         {
             return _context.Set<Product?>().FirstOrDefaultAsync(x => x!.Name == name);
         }

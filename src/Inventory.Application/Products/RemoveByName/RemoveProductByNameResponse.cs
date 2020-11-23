@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Inventory.Application.Products.WithdrawByName
+namespace Inventory.Application.Products.RemoveByName
 {
-    public class WithdrawProductByNameResponse : BaseResponse
+    public class RemoveProductByNameResponse : BaseResponse
     {
         public Product Product { get; }
 
-        public WithdrawProductByNameResponse(Product product)
+        public RemoveProductByNameResponse(Product product)
         {
             Product = product;
         }

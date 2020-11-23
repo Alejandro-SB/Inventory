@@ -30,7 +30,7 @@ namespace Inventory.Application.Products.CreateProduct
         {
             string productName = request.Name;
 
-            var existingProduct = await _productRepository.GetActiveByNameAsync(productName);
+            var existingProduct = await _productRepository.GetByNameAsync(productName);
 
             if (existingProduct is Product)
             {

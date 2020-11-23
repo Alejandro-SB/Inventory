@@ -9,7 +9,7 @@ namespace Inventory.Domain.Repositories
     public interface IProductRepository
     {
         ValueTask<Product?> GetByIdAsync(int id);
-        Task<Product?> GetActiveByNameAsync(string name);
+        Task<Product?> GetByNameAsync(string name);
         Product AddProduct(Product product);
         Product DeleteProduct(Product product);
     }

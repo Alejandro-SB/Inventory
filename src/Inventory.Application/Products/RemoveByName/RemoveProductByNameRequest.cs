@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Inventory.Application.Products.WithdrawByName
+namespace Inventory.Application.Products.RemoveByName
 {
-    public class WithdrawProductByNameRequest : IRequest<WithdrawProductByNameResponse>
+    public class RemoveProductByNameRequest : IRequest<RemoveProductByNameResponse>
     {
         public string Name { get; set; }
 
-        public WithdrawProductByNameRequest(string name)
+        public RemoveProductByNameRequest(string name)
         {
             if(name.IsNullOrEmpty())
             {

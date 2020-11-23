@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Inventory.Application.Products.WithdrawByName
+namespace Inventory.Application.Products.RemoveByName
 {
-    public class WithdrawProductByNameHandler : IWithdrawProductByNameHandler
+    public class RemoveProductByNameHandler : IRemoveProductByNameHandler
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public WithdrawProductByNameHandler(IProductRepository productRepository, 
+        public RemoveProductByNameHandler(IProductRepository productRepository, 
             IUnitOfWork unitOfWork
             )
         {
@@ -22,9 +22,9 @@ namespace Inventory.Application.Products.WithdrawByName
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public async Task<WithdrawProductByNameResponse> Handle(WithdrawProductByNameRequest request, CancellationToken cancellationToken = default)
+        public async Task<RemoveProductByNameResponse> Handle(RemoveProductByNameRequest request, CancellationToken cancellationToken = default)
         {
-            var product = await _productRepository.GetActiveByNameAsync(request.Name);
+            var product = await _productRepository.GetByNameAsync(request.Name);
 
             if(product is null)
             {
@@ -34,7 +34,7 @@ namespace Inventory.Application.Products.WithdrawByName
             _productRepository.DeleteProduct(product);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new WithdrawProductByNameResponse(product);
+            return new RemoveProductByNameResponse(product);
         }
     }
 }

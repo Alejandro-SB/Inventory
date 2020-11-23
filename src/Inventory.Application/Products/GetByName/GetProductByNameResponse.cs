@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Inventory.Application.Products.GetById
+namespace Inventory.Application.Products.GetByName
 {
-    public class GetProductByIdResponse : BaseResponse
+    public class GetProductByNameResponse : BaseResponse
     {
         public Product? Product { get; set; }
 
-        public GetProductByIdResponse(Product? product)
+        public GetProductByNameResponse(Product? product)
         {
             Product = product;
         }

@@ -27,7 +27,7 @@ namespace Inventory.Test.Application.Products
             const string productName = "name";
 
             var repositoryMock = new Mock<IProductRepository>();
-            repositoryMock.Setup(x => x.GetActiveByNameAsync(It.Is<string>(x => x == productName)))
+            repositoryMock.Setup(x => x.GetByNameAsync(It.Is<string>(x => x == productName)))
                 .Returns(() => Task.FromResult<Product?>(new Product(productName)));
 
             var unitOfWorkMock = new Mock<IUnitOfWork>();
@@ -51,7 +51,7 @@ namespace Inventory.Test.Application.Products
             const int generatedId = 1;
 
             var repositoryMock = new Mock<IProductRepository>();
-            repositoryMock.Setup(x => x.GetActiveByNameAsync(It.Is<string>(x => x == productName)))
+            repositoryMock.Setup(x => x.GetByNameAsync(It.Is<string>(x => x == productName)))
                 .Returns(() => Task.FromResult<Product?>(null));
             //Assign simulated product ID
             repositoryMock.Setup(x => x.AddProduct(It.IsAny<Product>()))

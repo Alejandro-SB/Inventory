@@ -1,17 +1,14 @@
 ﻿using Inventory.API.Products.CreateProduct;
-using Inventory.Application.Products;
+using Inventory.API.Products.GetProduct;
 using Inventory.Application.Products.CreateProduct;
-using Inventory.Application.Products.GetById;
-using Inventory.Application.Products.WithdrawByName;
+using Inventory.Application.Products.GetByName;
+using Inventory.Application.Products.RemoveByName;
 using Inventory.Domain.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Inventory.API.Products
@@ -23,20 +20,20 @@ namespace Inventory.API.Products
     {
         private readonly ILogger<ProductController> _logger;
         private readonly ICreateProductHandler _createProductHandler;
-        private readonly IGetProductByIdHandler _getProductByIdHandler;
-        private readonly IWithdrawProductByNameHandler _getProductByNameHandler;
+        private readonly IGetProductByNameHandler _getProductByNameHandler;
+        private readonly IRemoveProductByNameHandler _removeProductByNameHandler;
 
         public ProductController(
             ILogger<ProductController> logger,
             ICreateProductHandler createProductUseCase,
-            IGetProductByIdHandler getProductByIdHandler,
-            IWithdrawProductByNameHandler getProductByNameHandler
+            IGetProductByNameHandler getProductByNameHandler,
+            IRemoveProductByNameHandler removeProductByNameHandler
             )
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _createProductHandler = createProductUseCase ?? throw new ArgumentNullException(nameof(createProductUseCase));
-            _getProductByIdHandler = getProductByIdHandler ?? throw new ArgumentNullException(nameof(getProductByIdHandler));
             _getProductByNameHandler = getProductByNameHandler ?? throw new ArgumentNullException(nameof(getProductByNameHandler));
+            _removeProductByNameHandler = removeProductByNameHandler ?? throw new ArgumentNullException(nameof(removeProductByNameHandler));
         }
 
         [HttpPost]
@@ -54,7 +51,7 @@ namespace Inventory.API.Products
 
             var response = await _createProductHandler.Handle(createProductRequest);
 
-            return CreatedAtAction(nameof(GetProductByIdAsync), new { id = response.Id }, null);
+            return CreatedAtAction(nameof(GetProductByNameAsync), new { name = productDto.Name }, null);
         }
 
         [HttpDelete("{name}")]
@@ -62,39 +59,39 @@ namespace Inventory.API.Products
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CreateProductDto>> WithdrawByNameAsync(string? name)
+        public async Task<ActionResult<CreateProductDto>> RemoveByNameAsync(string? name)
         {
             if (name.IsNullOrEmpty())
             {
                 return BadRequest("Name cannot be empty");
             }
 
-            var response = await _getProductByNameHandler.Handle(new WithdrawProductByNameRequest(name));
+            var response = await _removeProductByNameHandler.Handle(new RemoveProductByNameRequest(name));
 
-            return Ok(response.Product);
+            return Ok(new ProductResponse(response.Product));
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{name}")]
         [ProducesResponseType(typeof(CreateProductDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CreateProductDto>> GetProductByIdAsync(int id)
+        public async Task<ActionResult<ProductResponse>> GetProductByNameAsync(string? name)
         {
-            if (id < 1)
+            if (name.IsNullOrEmpty())
             {
-                return BadRequest("Invalid id");
+                return BadRequest("Name cannot be empty");
             }
 
-            var response = await _getProductByIdHandler.Handle(new GetProductByIdRequest(id));
+            var response = await _getProductByNameHandler.Handle(new GetProductByNameRequest(name));
 
-            if (response.Product is null)
+            if(response.Product is null)
             {
                 return NotFound();
             }
             else
             {
-                return Ok(response.Product);
+                return Ok(new ProductResponse(response.Product));
             }
         }
     }
