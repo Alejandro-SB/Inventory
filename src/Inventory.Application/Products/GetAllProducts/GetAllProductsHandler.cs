@@ -1,0 +1,26 @@
+﻿using Inventory.Domain.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Inventory.Application.Products.GetAllProducts
+{
+    public class GetAllProductsHandler : IGetAllProductsHandler
+    {
+        private readonly IProductRepository _productRepository;
+
+        public GetAllProductsHandler(IProductRepository productRepository)
+        {
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+        }
+
+        public async Task<GetAllProductsResponse> Handle(GetAllProductsRequest request, CancellationToken cancellationToken = default)
+        {
+            var products = await _productRepository.GetAllProducts();
+
+            return new GetAllProductsResponse(products);
+        }
+    }
+}

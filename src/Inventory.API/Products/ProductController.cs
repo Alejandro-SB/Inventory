@@ -1,6 +1,7 @@
 ﻿using Inventory.API.Products.CreateProduct;
 using Inventory.API.Products.GetProduct;
 using Inventory.Application.Products.CreateProduct;
+using Inventory.Application.Products.GetAllProducts;
 using Inventory.Application.Products.GetByName;
 using Inventory.Application.Products.RemoveByName;
 using Inventory.Domain.Extensions;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Inventory.API.Products
@@ -22,18 +25,20 @@ namespace Inventory.API.Products
         private readonly ICreateProductHandler _createProductHandler;
         private readonly IGetProductByNameHandler _getProductByNameHandler;
         private readonly IRemoveProductByNameHandler _removeProductByNameHandler;
+        private readonly IGetAllProductsHandler _getAllProductsHandler;
 
         public ProductController(
             ILogger<ProductController> logger,
             ICreateProductHandler createProductUseCase,
             IGetProductByNameHandler getProductByNameHandler,
-            IRemoveProductByNameHandler removeProductByNameHandler
-            )
+            IRemoveProductByNameHandler removeProductByNameHandler,
+            IGetAllProductsHandler getAllProductsHandler)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _createProductHandler = createProductUseCase ?? throw new ArgumentNullException(nameof(createProductUseCase));
             _getProductByNameHandler = getProductByNameHandler ?? throw new ArgumentNullException(nameof(getProductByNameHandler));
             _removeProductByNameHandler = removeProductByNameHandler ?? throw new ArgumentNullException(nameof(removeProductByNameHandler));
+            _getAllProductsHandler = getAllProductsHandler ?? throw new ArgumentNullException(nameof(getAllProductsHandler));
         }
 
         [HttpPost]
@@ -85,7 +90,7 @@ namespace Inventory.API.Products
 
             var response = await _getProductByNameHandler.Handle(new GetProductByNameRequest(name));
 
-            if(response.Product is null)
+            if (response.Product is null)
             {
                 return NotFound();
             }
@@ -93,6 +98,16 @@ namespace Inventory.API.Products
             {
                 return Ok(new ProductResponse(response.Product));
             }
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(CreateProductDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<ProductResponse>>> GetAllProductsAsync()
+        {
+            var response = await _getAllProductsHandler.Handle(new GetAllProductsRequest());
+
+            return Ok(response.Products.Select(product => new ProductResponse(product)));
         }
     }
 }

@@ -37,6 +37,11 @@ namespace Inventory.Infrastructure
             return _context.Set<Product>().Where(x => x.ExpirationDate < today).ToListAsync();
         }
 
+        public Task<List<Product>> GetAllProducts()
+        {
+            return _context.Set<Product>().ToListAsync();
+        }
+
         public Product AddProduct(Product product)
         {
             return _context.Add(product).Entity;

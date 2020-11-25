@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.API", "src\Invent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Test", "test\Inventory.Test\Inventory.Test.csproj", "{65790E5C-872E-4028-B012-E5C47AC0366E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.IntegrationTest", "test\Inventory.IntegrationTest\Inventory.IntegrationTest.csproj", "{AABA3454-AD09-46BC-82B0-3C7A1FDB91EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.IntegrationTest", "test\Inventory.IntegrationTest\Inventory.IntegrationTest.csproj", "{AABA3454-AD09-46BC-82B0-3C7A1FDB91EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Web", "src\Inventory.Web\Inventory.Web.csproj", "{B18A9043-E44E-4F9D-A4B9-21C60FE7B729}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{AABA3454-AD09-46BC-82B0-3C7A1FDB91EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AABA3454-AD09-46BC-82B0-3C7A1FDB91EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AABA3454-AD09-46BC-82B0-3C7A1FDB91EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B18A9043-E44E-4F9D-A4B9-21C60FE7B729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B18A9043-E44E-4F9D-A4B9-21C60FE7B729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B18A9043-E44E-4F9D-A4B9-21C60FE7B729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B18A9043-E44E-4F9D-A4B9-21C60FE7B729}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

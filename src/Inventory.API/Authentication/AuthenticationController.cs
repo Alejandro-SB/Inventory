@@ -40,6 +40,7 @@ namespace Inventory.API.Authentication
 
                 var claims = new[]
                 {
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId),
                     new Claim(ClaimTypes.Name, user.UserId),
                     new Claim(ClaimTypes.Email, user.Email)
                 };
