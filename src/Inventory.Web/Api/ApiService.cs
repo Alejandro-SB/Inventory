@@ -1,5 +1,6 @@
 ﻿using Inventory.Web.Dto;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -46,7 +47,7 @@ namespace Inventory.Web.Api
             }
         }
 
-        public async Task<bool> CreateProductAsync(string token, string productName, DateTime? expirationDate = null, string productType = null)
+        public async Task<string> CreateProductAsync(string token, string productName, DateTime? expirationDate = null, string productType = null)
         {
             var url = _baseUrl + "Product";
 
@@ -67,7 +68,34 @@ namespace Inventory.Web.Api
 
                 response.EnsureAuthenticationSuccessful();
 
-                return response.StatusCode == HttpStatusCode.Created;
+                string result;
+
+                if(response.StatusCode == HttpStatusCode.Created)
+                {
+                    result = null;
+                }
+                else if((int)response.StatusCode == 422) //Unprocesable entity
+                {
+                    var reasonJson = await response.Content.ReadAsStringAsync();
+
+                    var reason = JObject.Parse(reasonJson);
+                    var validationReason = reason.SelectToken("errors.Validations[0]");
+
+                    if(validationReason != null && validationReason.Value<string>().Length > 0)
+                    {
+                        result = validationReason.Value<string>();
+                    }
+                    else
+                    {
+                        result = "An error ocurred while processing your request";
+                    }
+                }
+                else
+                {
+                    result = "An error ocurred while processing your request";
+                }
+
+                return result;
             }
         }
 

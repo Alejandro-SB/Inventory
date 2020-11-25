@@ -55,15 +55,15 @@ namespace Inventory.Web.Controllers
             }
 
             var token = GetToken();
-            var isSaved = await _apiService.CreateProductAsync(token, model.Name, model.ExpirationDate, model.ProductType);
+            var error = await _apiService.CreateProductAsync(token, model.Name, model.ExpirationDate, model.ProductType);
 
-            if(isSaved)
+            if(string.IsNullOrEmpty(error))
             {
                 return RedirectToAction("Index", "Product");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Product cannot be saved");
+                ModelState.AddModelError("Name", error);
 
                 return View(model);
             }
