@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Inventory.Domain.Extensions;
+﻿using Inventory.Domain.Extensions;
 using Inventory.Domain.UseCases;
+using System;
 
 namespace Inventory.Application.Products.CreateProduct
 {

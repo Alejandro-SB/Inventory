@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace Inventory.Application.Products.CreateProduct
 {
     /// <summary>
     /// Exception produced when creating a product that already exists
     /// </summary>
+    [Serializable]
     public sealed class ProductAlreadyExistsException : ApplicationException
     {
         /// <summary>
@@ -21,6 +21,12 @@ namespace Inventory.Application.Products.CreateProduct
         internal ProductAlreadyExistsException(string productName) : base($"Product {productName} already exists")
         {
             ProductName = productName;
+        }
+
+        private ProductAlreadyExistsException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+            :base(serializationInfo, streamingContext)
+        {
+            ProductName = string.Empty;
         }
     }
 }

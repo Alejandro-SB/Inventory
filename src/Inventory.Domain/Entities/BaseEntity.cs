@@ -1,8 +1,6 @@
 ﻿using Inventory.Domain.Events;
-using Inventory.Domain.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Inventory.Domain.Entities
 {

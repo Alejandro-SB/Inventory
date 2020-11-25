@@ -1,10 +1,5 @@
-﻿using Hangfire;
-using Hangfire.Common;
-using Inventory.Application.Products.NotifyExpiredProducts;
-using Microsoft.AspNetCore.Builder;
+﻿using Inventory.Application.Products.NotifyExpiredProducts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Inventory.API.Infrastructure.BackgroundJobs

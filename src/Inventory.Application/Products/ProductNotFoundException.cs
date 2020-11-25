@@ -1,10 +1,10 @@
 ﻿using Inventory.Domain.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace Inventory.Application.Products
 {
+    [Serializable]
     public class ProductNotFoundException : NotFoundException
     {
         public string ProductName { get; }
@@ -12,6 +12,12 @@ namespace Inventory.Application.Products
         public ProductNotFoundException(string productName) : base($"Product with name {productName} was not found")
         {
             ProductName = productName;
+        }
+
+        protected ProductNotFoundException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+            : base(serializationInfo, streamingContext)
+        {
+            ProductName = string.Empty;
         }
     }
 }

@@ -8,7 +8,6 @@ using Inventory.Domain.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,20 +20,17 @@ namespace Inventory.API.Products
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
-        private readonly ILogger<ProductController> _logger;
         private readonly ICreateProductHandler _createProductHandler;
         private readonly IGetProductByNameHandler _getProductByNameHandler;
         private readonly IRemoveProductByNameHandler _removeProductByNameHandler;
         private readonly IGetAllProductsHandler _getAllProductsHandler;
 
         public ProductController(
-            ILogger<ProductController> logger,
             ICreateProductHandler createProductUseCase,
             IGetProductByNameHandler getProductByNameHandler,
             IRemoveProductByNameHandler removeProductByNameHandler,
             IGetAllProductsHandler getAllProductsHandler)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _createProductHandler = createProductUseCase ?? throw new ArgumentNullException(nameof(createProductUseCase));
             _getProductByNameHandler = getProductByNameHandler ?? throw new ArgumentNullException(nameof(getProductByNameHandler));
             _removeProductByNameHandler = removeProductByNameHandler ?? throw new ArgumentNullException(nameof(removeProductByNameHandler));
@@ -54,7 +50,7 @@ namespace Inventory.API.Products
                 ExpirationDate = productDto.ExpirationDate
             };
 
-            var response = await _createProductHandler.Handle(createProductRequest);
+            await _createProductHandler.Handle(createProductRequest);
 
             return CreatedAtAction(nameof(GetProductByNameAsync), new { name = productDto.Name }, null);
         }

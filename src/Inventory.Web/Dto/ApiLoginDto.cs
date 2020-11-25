@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Inventory.Web.Dto
+﻿namespace Inventory.Web.Dto
 {
     public class ApiLoginDto
     {

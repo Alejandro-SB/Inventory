@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -122,13 +121,18 @@ namespace Inventory.Web.Api
             }
         }
 
-        public async Task<ProductDto> DeleteProductAsync(string token, string productName)
+        public Task<ProductDto> DeleteProductAsync(string token, string productName)
         {
             if (string.IsNullOrEmpty(productName))
             {
                 throw new ArgumentNullException(nameof(productName));
             }
 
+            return DeleteProduct(token, productName);
+        }
+
+        private async Task<ProductDto> DeleteProduct(string token, string productName)
+        {
             var url = $"{_baseUrl}Product/{HttpUtility.UrlEncode(productName)}";
 
             var message = ApiHelpers.GetAuthenticatedMessage(token, HttpMethod.Delete, url);

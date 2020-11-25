@@ -1,16 +1,13 @@
 ﻿using Inventory.Web.Api;
 using Inventory.Web.Models;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Inventory.Web.Controllers
 {
+    [Authorize]
     public class ProductController : BaseController
     {
         private readonly ApiService _apiService;

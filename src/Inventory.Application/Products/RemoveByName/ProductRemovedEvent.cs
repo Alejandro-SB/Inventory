@@ -1,7 +1,4 @@
 ﻿using Inventory.Domain.Events;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Inventory.Application.Products.RemoveByName
 {

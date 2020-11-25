@@ -1,13 +1,8 @@
-﻿using System;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
-using Owin;
-using Inventory.Web.Models;
-using Microsoft.Owin.Security.Jwt;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Jwt;
+using Owin;
 using System.Configuration;
 
 namespace Inventory.Web

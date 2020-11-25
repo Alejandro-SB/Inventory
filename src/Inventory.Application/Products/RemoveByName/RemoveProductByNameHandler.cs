@@ -1,9 +1,6 @@
-﻿using Inventory.Domain.DateTimeProvider;
-using Inventory.Domain.Persistence;
+﻿using Inventory.Domain.Persistence;
 using Inventory.Domain.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
