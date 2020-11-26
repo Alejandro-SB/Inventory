@@ -11,6 +11,7 @@ using Inventory.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -121,6 +122,21 @@ namespace Inventory.API
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             services.AddSingleton<IEventBus, NullEventBus>();
+            services.AddScoped<IAuditUser>(provider =>
+            {
+                var contextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+
+                var user = contextAccessor.HttpContext.User;
+
+                string? username = null;
+
+                if(user.Identity.IsAuthenticated)
+                {
+                    username = user.Identity.Name;
+                }
+
+                return new AuditUser(username);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

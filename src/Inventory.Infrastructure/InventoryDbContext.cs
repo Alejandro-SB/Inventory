@@ -1,4 +1,5 @@
 ﻿using Inventory.Domain.Entities;
+using Inventory.Domain.Persistence;
 using Inventory.Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,8 +11,11 @@ namespace Inventory.Infrastructure
 {
     public class InventoryDbContext : DbContext
     {
-        public InventoryDbContext(DbContextOptions<InventoryDbContext> options) : base(options)
+        private readonly IAuditUser _user;
+
+        public InventoryDbContext(DbContextOptions<InventoryDbContext> options, IAuditUser user) : base(options)
         {
+            _user = user ?? throw new ArgumentNullException(nameof(user));
         }
 
         public DbSet<Product> Products => Set<Product>();
@@ -32,18 +36,21 @@ namespace Inventory.Infrastructure
 
         private void SetAuditForEntities()
         {
-            var addedEntries = ChangeTracker.Entries().Where(x => x.State == EntityState.Added && x.Entity is BaseEntity).ToList();
-            var modifiedEntries = ChangeTracker.Entries().Where(x => x.State == EntityState.Modified && x.Entity is BaseEntity).ToList();
+            var entities = ChangeTracker.Entries().Where(x => x.State == EntityState.Added && x.Entity is BaseEntity).Select(x => (BaseEntity)x.Entity).ToList();
+            var modifiedEntities = ChangeTracker.Entries().Where(x => x.State == EntityState.Modified && x.Entity is BaseEntity).Select(x => (BaseEntity)x.Entity).ToList();
 
-            foreach(var entry in addedEntries)
+            foreach (var entity in entities)
             {
-                ((BaseEntity)entry.Entity).CreationDate = DateTime.UtcNow;
-                ((BaseEntity)entry.Entity).ModificationDate = DateTime.UtcNow;
+                entity.CreationDate = DateTime.UtcNow;
+                entity.CreationBy = _user.Username;
+                entity.ModificationDate = DateTime.UtcNow;
+                entity.ModificationBy = _user.Username;
             }
 
-            foreach(var entry in modifiedEntries)
+            foreach(var entity in modifiedEntities)
             {
-                ((BaseEntity)entry.Entity).ModificationDate = DateTime.UtcNow;
+                entity.ModificationDate = DateTime.UtcNow;
+                entity.ModificationBy = _user.Username;
             }
         }
     }
