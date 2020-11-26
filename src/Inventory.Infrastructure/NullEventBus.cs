@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Inventory.Infrastructure
 {
+    /// <summary>
+    /// Represents an abstract event bus
+    /// </summary>
     public class NullEventBus : IEventBus
     {
         private readonly ILogger<NullEventBus> _logger;
@@ -14,6 +17,11 @@ namespace Inventory.Infrastructure
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        /// <summary>
+        /// Mocks publishing by logging the operation requested
+        /// </summary>
+        /// <param name="domainEvent">The event to publish</param>
+        /// <returns></returns>
         public Task Publish(DomainEvent domainEvent)
         {
             string eventName = domainEvent.GetType().Name;

@@ -1,4 +1,5 @@
-﻿using Inventory.Domain.Persistence;
+﻿using Inventory.Application.Products.Dto;
+using Inventory.Domain.Persistence;
 using Inventory.Domain.Repositories;
 using System;
 using System.Threading;
@@ -34,7 +35,7 @@ namespace Inventory.Application.Products.RemoveByName
             _productRepository.DeleteProduct(product);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new RemoveProductByNameResponse(product);
+            return new RemoveProductByNameResponse(new ProductDto(product));
         }
     }
 }

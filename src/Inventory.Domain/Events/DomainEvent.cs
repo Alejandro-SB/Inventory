@@ -2,6 +2,9 @@
 
 namespace Inventory.Domain.Events
 {
+    /// <summary>
+    /// Represents an abstract event
+    /// </summary>
     public abstract class DomainEvent
     {
         public Guid Id { get; } = Guid.NewGuid();

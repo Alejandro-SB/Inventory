@@ -57,7 +57,7 @@ namespace Inventory.Test.Application.Products
             //Assert
             Assert.NotNull(response);
             Assert.True(response.Success);
-            Assert.Equal(product, response.Product);
+            Assert.Equal(product.Name, response.Product.Name);
             Assert.Equal(1, product.DomainEvents.Count);
         }
     }

@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace Inventory.API.Products
 {
+    /// <summary>
+    /// Controller to manage product actions
+    /// </summary>
     [ApiController]
     [Authorize]
     [Route("[controller]")]
@@ -25,6 +28,13 @@ namespace Inventory.API.Products
         private readonly IRemoveProductByNameHandler _removeProductByNameHandler;
         private readonly IGetAllProductsHandler _getAllProductsHandler;
 
+        /// <summary>
+        /// Creates an instance of the ProductController class
+        /// </summary>
+        /// <param name="createProductUseCase">Product creation use case</param>
+        /// <param name="getProductByNameHandler">Product retrieval by name use case</param>
+        /// <param name="removeProductByNameHandler">Product deletion use case</param>
+        /// <param name="getAllProductsHandler">Product retrieval use case</param>
         public ProductController(
             ICreateProductHandler createProductUseCase,
             IGetProductByNameHandler getProductByNameHandler,
@@ -37,6 +47,11 @@ namespace Inventory.API.Products
             _getAllProductsHandler = getAllProductsHandler ?? throw new ArgumentNullException(nameof(getAllProductsHandler));
         }
 
+        /// <summary>
+        /// Creates a product
+        /// </summary>
+        /// <param name="productDto">The product to create</param>
+        /// <returns>A code to indicate success</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -55,6 +70,11 @@ namespace Inventory.API.Products
             return CreatedAtAction(nameof(GetProductByNameAsync), new { name = productDto.Name }, null);
         }
 
+        /// <summary>
+        /// Deletes a product by name
+        /// </summary>
+        /// <param name="name">The name of the product to delete</param>
+        /// <returns>Status code to indicate success</returns>
         [HttpDelete("{name}")]
         [ProducesResponseType(typeof(CreateProductDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -69,15 +89,20 @@ namespace Inventory.API.Products
 
             var response = await _removeProductByNameHandler.Handle(new RemoveProductByNameRequest(name));
 
-            return Ok(new ProductResponse(response.Product));
+            return Ok(new ProductViewModel(response.Product));
         }
 
+        /// <summary>
+        /// Gets a product by name
+        /// </summary>
+        /// <param name="name">The name of the product to get</param>
+        /// <returns>The product if exists, null otherwise</returns>
         [HttpGet("{name}")]
         [ProducesResponseType(typeof(CreateProductDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductResponse>> GetProductByNameAsync(string? name)
+        public async Task<ActionResult<ProductViewModel>> GetProductByNameAsync(string? name)
         {
             if (name.IsNullOrEmpty())
             {
@@ -92,18 +117,22 @@ namespace Inventory.API.Products
             }
             else
             {
-                return Ok(new ProductResponse(response.Product));
+                return Ok(new ProductViewModel(response.Product));
             }
         }
 
+        /// <summary>
+        /// Gets all products
+        /// </summary>
+        /// <returns>All the products in the database or an empty list if none</returns>
         [HttpGet]
         [ProducesResponseType(typeof(CreateProductDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<ProductResponse>>> GetAllProductsAsync()
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetAllProductsAsync()
         {
             var response = await _getAllProductsHandler.Handle(new GetAllProductsRequest());
 
-            return Ok(response.Products.Select(product => new ProductResponse(product)));
+            return Ok(response.Products.Select(product => new ProductViewModel(product)));
         }
     }
 }

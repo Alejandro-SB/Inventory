@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Inventory.Infrastructure
 {
+    /// <summary>
+    /// DbContext for the application
+    /// </summary>
     public class InventoryDbContext : DbContext
     {
         private readonly IAuditUser _user;
@@ -34,6 +37,9 @@ namespace Inventory.Infrastructure
             return base.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Saves the audit values in the database
+        /// </summary>
         private void SetAuditForEntities()
         {
             var entities = ChangeTracker.Entries().Where(x => x.State == EntityState.Added && x.Entity is BaseEntity).Select(x => (BaseEntity)x.Entity).ToList();

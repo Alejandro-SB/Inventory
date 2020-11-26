@@ -1,13 +1,14 @@
-﻿using Inventory.Domain.Entities;
+﻿using Inventory.Application.Products.Dto;
+using Inventory.Domain.Entities;
 using Inventory.Domain.UseCases;
 
 namespace Inventory.Application.Products.RemoveByName
 {
     public class RemoveProductByNameResponse : BaseResponse
     {
-        public Product Product { get; }
+        public ProductDto Product { get; }
 
-        public RemoveProductByNameResponse(Product product)
+        public RemoveProductByNameResponse(ProductDto product)
         {
             Product = product;
         }

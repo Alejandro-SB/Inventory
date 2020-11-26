@@ -1,4 +1,5 @@
-﻿using Inventory.Domain.Repositories;
+﻿using Inventory.Application.Products.Dto;
+using Inventory.Domain.Repositories;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +19,9 @@ namespace Inventory.Application.Products.GetByName
         {
             var product = await _productRepository.GetByNameAsync(request.Name);
 
-            return new GetProductByNameResponse(product);
+            var dto = product is null ? null : new ProductDto(product);
+
+            return new GetProductByNameResponse(dto);
         }
     }
 }

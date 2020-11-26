@@ -19,6 +19,7 @@ namespace Inventory.Infrastructure
             _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
+        /// <inheritdoc/>
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             await DispatchEvents();
@@ -26,6 +27,10 @@ namespace Inventory.Infrastructure
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Dispatches all the pending events from the entities
+        /// </summary>
+        /// <returns></returns>
         private async Task DispatchEvents()
         {
             var entities = _context.ChangeTracker.Entries<BaseEntity>()

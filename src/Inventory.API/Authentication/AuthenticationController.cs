@@ -11,18 +11,33 @@ using System.Text;
 
 namespace Inventory.API.Authentication
 {
+    /// <summary>
+    /// Controller to authenticate users
+    /// </summary>
     [ApiController]
     [Authorize]
     [Route("[controller]")]
     public class AuthenticationController : ControllerBase
     {
+        /// <summary>
+        /// Property that holds the configuration of the application
+        /// </summary>
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Creates an instance of the AuthenticationController class
+        /// </summary>
+        /// <param name="configuration">The configuration of the application</param>
         public AuthenticationController(IConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
+        /// <summary>
+        /// Authenticates a user
+        /// </summary>
+        /// <param name="model">The data of the user</param>
+        /// <returns>The token of the user</returns>
         [HttpPost("authenticate")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]

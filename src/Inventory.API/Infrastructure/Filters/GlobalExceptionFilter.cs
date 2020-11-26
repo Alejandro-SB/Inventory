@@ -11,17 +11,35 @@ using System;
 
 namespace Inventory.API.Infrastructure.Filters
 {
+    /// <summary>
+    /// Filter that captures all exceptions to return the appropriate status code
+    /// </summary>
     public class GlobalExceptionFilter : IExceptionFilter
     {
+        /// <summary>
+        /// The environment configuration
+        /// </summary>
         private readonly IWebHostEnvironment _env;
+        /// <summary>
+        /// Logger class
+        /// </summary>
         private readonly ILogger<GlobalExceptionFilter> _logger;
 
+        /// <summary>
+        /// Creates an instance of the GlobalExceptionFilter class
+        /// </summary>
+        /// <param name="logger">Logging class</param>
+        /// <param name="env">The environment configuration</param>
         public GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger, IWebHostEnvironment env)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _env = env ?? throw new ArgumentNullException(nameof(env));
         }
 
+        /// <summary>
+        /// Handles exceptions
+        /// </summary>
+        /// <param name="context">The context of the exception</param>
         public void OnException(ExceptionContext context)
         {
             Exception exception = context.Exception;
