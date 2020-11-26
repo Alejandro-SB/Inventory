@@ -179,7 +179,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ApiAuthenticationException.cs" />
-    <Compile Include="Api\ApiConfiguration.cs" />
     <Compile Include="Api\ApiService.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

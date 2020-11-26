@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Security.Claims;
 using System.Text;
 
 namespace Inventory.API
@@ -126,11 +127,11 @@ namespace Inventory.API
             {
                 var contextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
 
-                var user = contextAccessor.HttpContext.User;
+                var user = contextAccessor?.HttpContext?.User;
 
                 string? username = null;
 
-                if(user.Identity.IsAuthenticated)
+                if(user is ClaimsPrincipal && user.Identity.IsAuthenticated)
                 {
                     username = user.Identity.Name;
                 }

@@ -14,7 +14,7 @@ namespace Inventory.Infrastructure.Configuration
         /// Configures the base properties of all entities
         /// </summary>
         /// <param name="builder"></param>
-        public virtual void Configure(EntityTypeBuilder<TEntity> builder)
+        public void Configure(EntityTypeBuilder<TEntity> builder)
         {
             ConfigureEntity(builder);
             
