@@ -65,9 +65,6 @@ Cada subcarpeta contiene a su vez la información necesaria para cada caso de un
 * _Handler_ junto con su interfaz que definen cómo se ejecuta ese caso de uso.
 * También están dentro de cada carpeta sus excepciones y eventos, de cara a la organización del proyecto.
 
-### Nota adicional
-Este proyecto expone las entidades del proyecto de dominio. En principio, eso no debería hacerse, pero por simplicidad y ahorro de tiempo, se ha prescindido de la creación de dichas clases. Un diseño completo ocultaría esa visión de cualquier proyecto ajeno a la capa de aplicación.
-
 ---
 ## Infrastructure
 ### Dependencias
