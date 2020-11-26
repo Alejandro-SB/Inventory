@@ -23,6 +23,16 @@ Lo primero que hay que ejecutar es la API REST, que es la que dará acceso a la 
 
 Una vez ejecutado, la API se expondrá a través de swagger en `https://localhost:5003`.
 
+Una vez lanzado swagger, para poder acceder a los métodos securizados es necesario autenticarse primero. Para la autenticación, es necesario llamar al método _Authenticate_. Las credenciales por defecto (hardcoded) son:
+
+Usuario: admin
+
+Password: 123456
+
+Una vez iniciada la sesión, pulsando en el botón Authorize dentro de swagger, hay que copiar el token generado por el método _Authorize_ en la forma:
+
+>Bearer *_Token_*
+
 Si se desea tener acceso a la interfaz MVC que conecta con la API, lo ideal es ejecutarla desde el propio Visual Studio. También se puede ejecutar directamente con IIS yendo al directorio de instalación de IIS y ejecutando:
 `"%ProgramFiles%\IIS Express\iisexpress.exe" /path:"<RUTA A LA APLICACION>\src\Inventory.Web"`
 
@@ -154,3 +164,7 @@ De ambos, destacar el helper existente en el proyecto de integración, diseñado
 
 ### Nota adicional
 De cara a su uso en un entorno 100% real, sería necesario implementar un sistema correcto de autenticación, ya que se podrían tener roles, usuarios con diferentes permisos... Estas casuísticas deben ser testeadas y no es posible por el momento al no existir métodos disponibles.
+
+---
+## Calidad
+La solución se ha analizado con SonarQube, apareciendo sólo problemas menores. Un análisis completo arroja errores graves en la parte de JS, provenientes de los ficheros de jQuery. Estos problemas, que pueden estar corregidos en versiones más recientes, quedan fuera del objetivo de este proyecto.
