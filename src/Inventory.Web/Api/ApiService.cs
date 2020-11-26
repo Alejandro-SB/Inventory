@@ -11,6 +11,9 @@ using System.Web;
 
 namespace Inventory.Web.Api
 {
+    /// <summary>
+    /// Class that represents an abstract api interaction
+    /// </summary>
     public class ApiService
     {
         private readonly string _baseUrl;
@@ -20,7 +23,13 @@ namespace Inventory.Web.Api
             _baseUrl = baseUrl ?? throw new ArgumentNullException(nameof(baseUrl));
         }
 
-        public async Task<string> Login(string username, string password)
+        /// <summary>
+        /// Logs the user into the application
+        /// </summary>
+        /// <param name="username">The name of the user</param>
+        /// <param name="password">The password of the user</param>
+        /// <returns>The token or null if not valid</returns>
+        public async Task<string> LoginAsync(string username, string password)
         {
             var url = _baseUrl + "Authentication/Authenticate";
 
@@ -47,6 +56,14 @@ namespace Inventory.Web.Api
             }
         }
 
+        /// <summary>
+        /// Creates a product
+        /// </summary>
+        /// <param name="token">The token to access the API</param>
+        /// <param name="productName">The name of the product</param>
+        /// <param name="expirationDate">The date of expiration of the product</param>
+        /// <param name="productType">The type of the product</param>
+        /// <returns>The errror if any or null if ok</returns>
         public async Task<string> CreateProductAsync(string token, string productName, DateTime? expirationDate = null, string productType = null)
         {
             var url = _baseUrl + "Product";
@@ -99,7 +116,13 @@ namespace Inventory.Web.Api
             }
         }
 
-        public async Task<ProductDto> GetProductByName(string token, string productName)
+        /// <summary>
+        /// Gets a product by name
+        /// </summary>
+        /// <param name="token">The token to access the API</param>
+        /// <param name="productName">The name of the product</param>
+        /// <returns>The product or null if not found</returns>
+        public async Task<ProductDto> GetProductByNameAsync(string token, string productName)
         {
             var url = $"{_baseUrl}Product/{productName}";
 
@@ -124,7 +147,12 @@ namespace Inventory.Web.Api
             }
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProducts(string token)
+        /// <summary>
+        /// Returns all the products
+        /// </summary>
+        /// <param name="token">The token to access the API</param>
+        /// <returns>A list with all the products</returns>
+        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync(string token)
         {
             var url = $"{_baseUrl}Product";
 
@@ -149,6 +177,12 @@ namespace Inventory.Web.Api
             }
         }
 
+        /// <summary>
+        /// Deletes a product by name
+        /// </summary>
+        /// <param name="token">The token to access the API</param>
+        /// <param name="productName">The name of the product</param>
+        /// <returns>The product deleted</returns>
         public Task<ProductDto> DeleteProductAsync(string token, string productName)
         {
             if (string.IsNullOrEmpty(productName))
@@ -159,6 +193,12 @@ namespace Inventory.Web.Api
             return DeleteProduct(token, productName);
         }
 
+        /// <summary>
+        /// Deletes the product
+        /// </summary>
+        /// <param name="token">The token to access the API</param>
+        /// <param name="productName">The name of the product</param>
+        /// <returns>The product deleted</returns>
         private async Task<ProductDto> DeleteProduct(string token, string productName)
         {
             var url = $"{_baseUrl}Product/{HttpUtility.UrlEncode(productName)}";

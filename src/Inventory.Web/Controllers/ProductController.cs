@@ -21,7 +21,7 @@ namespace Inventory.Web.Controllers
         {
             string token = GetToken();
 
-            var products = await _apiService.GetAllProducts(token);
+            var products = await _apiService.GetAllProductsAsync(token);
 
             return View(products.Select(x => new ProductViewModel
             {

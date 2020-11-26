@@ -43,7 +43,7 @@ namespace Inventory.Web.Controllers
                 return View(model);
             }
 
-            var token = await _apiService.Login(model.Email, model.Password);
+            var token = await _apiService.LoginAsync(model.Email, model.Password);
 
             if (string.IsNullOrEmpty(token))
             {
